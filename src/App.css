@@ -5,3 +5,9 @@
 .App .navbar-brand {
   font-weight: bold;
 }
+
+.App .nav-item button{
+  position: absolute;
+  right: 1%;
+  top: 17%;
+}
