@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import axios from 'axios';
 import "./Login.css";
-import api from '../api.js';
+import api from '../components/Api.js';
 
 
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import api from '../api.js';
+import api from '../components/Api.js';
 import {Table} from 'react-bootstrap';
 
 
@@ -8,14 +8,18 @@ class Clientes extends Component {
     constructor(props) {
         super(props);
     
-        this.state = {'clientes': null};
+        this.state = {
+            'isLoaded': false,
+            'clientes': [] };
       }
 
       async componentDidMount(){
         try {
             axios.get(api.path + '/clientes').then(response =>{
-                if (response.data.errorCode == 0){
-                        this.setState({clientes : response.data.result})
+                if (response.data.errorCode == 0){    
+                    this.setState({
+                        isLoaded : true,
+                        clientes : response.data.result})
                    }else{
                         alert(response.data.clientMessage)
                   }  
@@ -28,7 +32,9 @@ class Clientes extends Component {
       
 
       render(){
-          return(
+        const clientes = this.state.clientes;  
+        if (this.state.isLoaded){
+        return(
             <div>
                 <Table>
                     <thead>
@@ -38,21 +44,25 @@ class Clientes extends Component {
                         <th>Activo</th>
                     </thead>
                     <tbody>
-                        {/* {this.state.clientes.map(function(element){
-                            return (
+                        {clientes.map(cliente => (
+                            
                               <tr>
-                                  <td>{element.numero}</td>
-                                  <td>{element.nombre}</td>
-                                  <td>{element.cuil}</td>
-                                  <td>{element.activo ? "Si" : "No"}</td>
+                                  <td>{cliente.numero}</td>
+                                  <td>{cliente.nombre}</td>
+                                  <td>{cliente.cuil}</td>
+                                  <td>{cliente.activo ? "Si" : "No"}</td>
                               </tr>  
-                            );  
-                        })} */}
+                            
+                        ))}
                     </tbody>
                 </Table>
             </div>  
             
           )
+    }
+    else{
+        return(<div>Cargando</div>)
+    }
       };
 }
 export default Clientes;
