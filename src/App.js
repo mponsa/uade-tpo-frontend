@@ -13,12 +13,12 @@ class App extends Component {
       isAuthenticating: true
     };
   }
-  
-  
+
+
   userHasAuthenticated = authenticated => {
     this.setState({ isAuthenticated: authenticated });
   }
-  
+
   handleLogout = event => {
     // Acá tendriamos que hacer el SET de la cookie LoggedIn a "false"
     this.userHasAuthenticated(false);
@@ -39,7 +39,7 @@ class App extends Component {
         alert(e);
       }
     }
-  
+
     this.setState({ isAuthenticating: false });
   }
 
@@ -56,20 +56,20 @@ class App extends Component {
           <Navbar.Brand href="/">APD</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse>
-            
+
               {this.state.isAuthenticated
               ? <Nav pullRight>
-                
-                <Nav.Item> 
+
+                <Nav.Item>
                   <Nav.Link href="/clientes">Clientes</Nav.Link>
                 </Nav.Item>
 
-                <Nav.Item> 
+                <Nav.Item>
                   <Nav.Link href="#productos">Productos</Nav.Link>
                 </Nav.Item>
 
-                <Nav.Item> 
-                  <Nav.Link href="#pedidos">Pedidos</Nav.Link>
+                <Nav.Item>
+                  <Nav.Link href="/pedidos">Pedidos</Nav.Link>
                 </Nav.Item>
 
                 <Nav.Item onClick={this.handleLogout}>
@@ -82,8 +82,8 @@ class App extends Component {
                   <Nav.Link href="/login">Login</Nav.Link>
                 </Fragment>
                 </Nav>
-              }  
-            
+              }
+
           </Navbar.Collapse>
         </Navbar>
         <Routes childProps={childProps} />
