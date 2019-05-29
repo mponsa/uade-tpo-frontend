@@ -1,0 +1,19 @@
+
+
+
+.buttons{
+    display: flex;
+    align-items: center;
+}
+
+.buttons .button{
+    margin: 2%;
+}
+
+.itemTable {
+    margin-top:2%;
+}
+
+.itemTable .noItemsMessage{
+    margin-top:5%;
+}
