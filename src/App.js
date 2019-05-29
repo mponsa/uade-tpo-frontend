@@ -1,5 +1,5 @@
 import React, { Component , Fragment} from "react";
-import { Navbar, Nav, Button  } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Button  } from "react-bootstrap";
 import Routes from "./Routes.js";
 import "./App.css";
 import { Link, withRouter } from "react-router-dom";
@@ -65,12 +65,13 @@ class App extends Component {
                 </Nav.Item>
 
                 <Nav.Item> 
-                  <Nav.Link href="#productos">Productos</Nav.Link>
-                </Nav.Item>
-
-                <Nav.Item> 
                   <Nav.Link href="#pedidos">Pedidos</Nav.Link>
                 </Nav.Item>
+
+                <NavDropdown title="Productos" id="nav-dropdown">
+                  <NavDropdown.Item href="/productos">Todos</NavDropdown.Item>
+                  <NavDropdown.Item eventKey="4.2">Buscar</NavDropdown.Item>
+                </NavDropdown>
 
                 <Nav.Item onClick={this.handleLogout}>
                   <Button variant="primary">Logout</Button>
