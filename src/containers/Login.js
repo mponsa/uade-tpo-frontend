@@ -3,6 +3,7 @@ import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import axios from 'axios';
 import "./Login.css";
 import api from '../components/Api.js';
+import ChgPass from "./ChgPass";
 
 
 
@@ -11,6 +12,7 @@ class Login extends Component {
       super(props);
   
       this.state = {
+        modalShow : false,
         usuario: "",
         password: ""
       };
@@ -33,7 +35,7 @@ class Login extends Component {
               'usuario': this.state.usuario,
               'password': this.state.password
             }).then(response => {
-               if (response.data.errorCode == 0){
+               if (response.data.errorCode === 0){
                  this.props.userHasAuthenticated(true);
                   // Acá tendriamos que hacer el SET de la cookie LoggedIn a "true"
                   window.localStorage.setItem("loggedin",true)
@@ -49,7 +51,8 @@ class Login extends Component {
      }         
       
     render() {
-        return (
+      let modalClose = () => this.setState({ modalShow: false });  
+      return (
           <div className="Login">
             <form onSubmit={this.handleSubmit}>
               <FormGroup controlId="usuario" bsSize="large">
@@ -78,6 +81,10 @@ class Login extends Component {
               >
                 Login
               </Button>
+              <Button className="chgPass" variant="secondary" size="sm" onClick={() => this.setState({ modalShow: true })}>
+                Cambiar Password
+              </Button>
+              <ChgPass show={this.state.modalShow} onHide={modalClose}/>
             </form>
           </div>
         );
