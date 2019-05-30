@@ -10,8 +10,8 @@ class MCrearPedido extends Component{
         super(props);
 
         this.state = {
-            show : this.props.show,
-            cliente : this.props.cliente,
+            show : '',
+            cliente :'',
             pedido : '',
             isLoaded: false
         }
@@ -38,11 +38,16 @@ class MCrearPedido extends Component{
         
     }
 
+    closeModal = () => {
+        this.setState({isLoaded:false})
+        this.props.onHide()
+    }
+
     render(){
         if (this.state.isLoaded){
         return(
             <Modal {...this.props} aria-labelledby="contained-modal-title-vcenter">
-            <Modal.Header closeButton>
+            <Modal.Header>
               <Modal.Title id="contained-modal-title-vcenter">
                 Nº Pedido: {this.state.pedido.numeroPedido}
               </Modal.Title>
@@ -104,7 +109,7 @@ class MCrearPedido extends Component{
             <Modal.Footer>
               <ButtonGroup>
                 <Button className="agregarItems" variant="secondary" onClick={this.handleAgregarItems}>Agregar Items</Button>
-                <Button onClick={this.props.onHide}>Close</Button>
+                <Button onClick={this.closeModal}>Cerrar</Button>
               </ButtonGroup>
               
             </Modal.Footer>
@@ -117,7 +122,7 @@ class MCrearPedido extends Component{
                         Está seguro que quiere crear un pedido para: {this.props.cliente ? this.props.cliente.nombre : ""} ?
                         <ButtonGroup className="buttons">
                             <Button className="button" onClick={this.handleCrearPedido}>Si</Button>
-                            <Button className="button" onClick={this.props.onHide}> No </Button>
+                            <Button className="button" onClick={this.closeModal}> No </Button>
                         </ButtonGroup>
                     </Modal.Body>
              </Modal>

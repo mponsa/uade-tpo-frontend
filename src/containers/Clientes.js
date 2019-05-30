@@ -62,17 +62,15 @@ class Clientes extends Component {
       }
 
       handleCrearPedido = e => {
-        this.setState({ 'cliente': this.state.clientes.find(cliente => function(){
-                            return cliente.numero === e.target.id}),
-                        'showCP':true});
-      
+        this.setState({ 'cliente': this.state.clientes.find(cliente => cliente.numero == e.target.id),
+                        'showCP':true})
+
       }
 
       
 
       handleMostrarPedidos = e => {
-        this.setState({ 'cliente': this.state.clientes.find(cliente => function(){
-            return cliente.numero === e.target.id}),
+        this.setState({ 'cliente': this.state.clientes.find(cliente => cliente.numero == e.target.id),
                         'showVP':true});
 
       }
