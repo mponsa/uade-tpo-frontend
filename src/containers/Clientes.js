@@ -30,6 +30,34 @@ class Clientes extends Component {
           }
         }
       
+       handleChange = e => {
+         var input, filter, filtered;
+         input = this.textInput.current
+         filter = input.value.toUpperCase();
+         
+
+         filtered = this.state.clientes.filter(function(cliente){
+             return !cliente.nombre.indexOf(filter)
+         })
+         
+         this.setState({filtered : filtered})
+
+         
+      }
+
+      handleCrearPedido = e => {
+        this.setState({ 'cliente': this.state.clientes.find(cliente => cliente.numero == e.target.id),
+                        'showCP':true})
+
+      }
+
+      
+
+      handleMostrarPedidos = e => {
+        this.setState({ 'cliente': this.state.clientes.find(cliente => cliente.numero == e.target.id),
+                        'showVP':true});
+
+      }
 
       render(){
         const clientes = this.state.clientes;  
