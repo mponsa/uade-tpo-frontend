@@ -1,73 +1,53 @@
-import React, { Component , Fragment} from "react";
-import axios from 'axios';
-import api from '../components/Api.js';
-import {Table, Button} from 'react-bootstrap';
-import Routes from "../Routes.js";
-import { Link, withRouter } from "react-router-dom";
-
-class Pedidos extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            'isLoaded': true, // 'isLoaded': false
-            'Pedidos': [] };
-      }
-
-      async componentDidMount(){
-        try {
-            axios.get(api.path + '/pedidos').then(response =>{
-                if (response.data.errorCode == 0){
-                    this.setState({
-                        isLoaded : true,
-                        Pedidos : response.data.result})
-                   }else{
-                        alert(response.data.clientMessage)
-                  }
-            })
-          }
-          catch(e) {
-              alert(e);
-          }
-        }
+import React, { Component } from "react";
+import {Card, CardGroup,Container} from 'react-bootstrap';
 
 
-      render(){
-        const Pedidos = this.state.Pedidos;
+class Pedidos extends Component{
 
-        if (this.state.isLoaded){
-          return(
-              <div>
-                  <br/>
-                  <Button variant="primary" action href="/nuevoPedido">Nuevo Pedido</Button>
-                  <br/><br/>
-                  <Table>
-                      <thead>
-                          <th>#</th>
-                          <th>N° de Pedido</th>
-                          <th>N° de Cliente</th>
-                          <th>Fecha</th>
-                          <th>estado</th>
-                      </thead>
-                      <tbody>
-                          {Pedidos.map(pedido => (
+    render(){
+        return(
 
-                                <tr>
-                                    <td>{pedido.numeroPedido}</td>
-                                    <td>{pedido.numeroCliente}</td>
-                                    <td>{pedido.fechaPedido}</td>
-                                    <td>{pedido.estadoPedido}</td>
-                                </tr>
+                <CardGroup>
+                    <Card class="option" >
+                        <Card.Header>
+                            <Card.Title>Pedidos por cliente</Card.Title>
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                Seleccione un cliente de la lista para ver los pedidos que le corresponden.
+                            </Card.Text>
+                            <Card.Link href="#">Card Link</Card.Link>
+                            <Card.Link href="#">Another Link</Card.Link>
+                        </Card.Body>
+                    </Card>
+                    <Card class="option" >
+                        <Card.Header>
+                            <Card.Title>Pedidos por estado</Card.Title>
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                Seleccione un estado de la lista para ver los pedidos que le corresponden.
+                            </Card.Text>
+                            <Card.Link href="#">Card Link</Card.Link>
+                            <Card.Link href="#">Another Link</Card.Link>
+                        </Card.Body>
+                    </Card>
+                    <Card class="option" >
+                        <Card.Header>
+                            <Card.Title>Todos los pedidos</Card.Title>
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                Muestra todos los pedidos de la lista.
+                            </Card.Text>
+                            <Card.Link href="#">Card Link</Card.Link>
+                            <Card.Link href="#">Another Link</Card.Link>
+                        </Card.Body>
+                    </Card>
+                </CardGroup>
 
-                          ))}
-                      </tbody>
-                  </Table>
-              </div>
-            );
-        }
-        else{
-              return(<div>Cargando</div>);
-        }
-      }
+
+        )
+    }
 }
 export default Pedidos;

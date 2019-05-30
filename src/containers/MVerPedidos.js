@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from 'axios';
 import api from '../components/Api.js';
 import { Modal, Button, ButtonGroup, Table} from "react-bootstrap";
+import './MVerPedidos.css';
 
 
 
@@ -13,6 +14,7 @@ class MCrearPedido extends Component{
             show : '',
             cliente : '',
             pedidos : '',
+            pedido : '',
             isLoaded: false
         }
     }
@@ -24,29 +26,77 @@ class MCrearPedido extends Component{
                   'numero': this.props.cliente.numero
             }).then(response => {
                 if(response.data.errorCode === 0){
-                    this.setState({ 'cliente': this.props.cliente,
-                                    'pedidos': response.data.result,
-                                    'isLoaded':true})
+                    response.data.result.map(element => {
+                        var date = new Date(element.fechaPedido);
+                        var fdate = date.getDate() + '/' + (date.getMonth() + 1) +'/'+date.getFullYear();
+                        element.fechaPedido = fdate;
+                    });
+                    this.setState({ 
+                    'pedidos': response.data.result,
+                    'isLoaded':true})
                 }else{
-                    alert(response.data.clientMessage)
+                    if( this.props.show ){
+                        alert(response.data.clientMessage);
+                        this.closeModal();
+                    }
                 }
             })
         }catch(e){
-            alert(e.message)
+            alert(e.message);
         }
         }   
     }
 
+    closeModal = () => {
+        this.setState({isLoaded:false})
+        this.props.onHide();
+    }
+
+    handleFacturar = e => {
+        let id = parseInt(e.target.id);
+
+        try {
+            axios.post(api.path + '/facturarPedido',{
+              'numeroPedido': id
+        }).then(response => {
+            if(response.data.errorCode === 0){
+                alert(response.data.clientMessage)
+                //Cambiar estado del pedido que inicio el proceso desde el cliente.
+                this.state.pedidos.map(element => {
+                    if (element.numero == id){
+                        element.estado = "facturado";
+                    }
+                });
+                this.setState({isLoaded:false});
+            }else{
+                
+                alert(response.data.clientMessage);
+            }
+        })
+    }catch(e){
+        alert(e.message)
+    }
+    }   
+    
+
+    handleAgregarItems = e => {
+        alert(e.target.id)
+    }
+    
+
     render(){
-        if (this.props.show){
+        if (this.props.show && this.state.isLoaded == false){
             this.handleShowPedidos();
         }
         if (this.state.isLoaded){
         return(
-            <Modal {...this.props} aria-labelledby="contained-modal-title-vcenter">
-            <Modal.Header closeButton>
+            <Modal {...this.props}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered>
+            <Modal.Header>
               <Modal.Title id="contained-modal-title-vcenter">
-                Pedidos para el cliente: {this.state.cliente.nombre}
+                Pedidos para el cliente: {this.props.cliente.nombre}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -54,7 +104,6 @@ class MCrearPedido extends Component{
                     <thead>
                         <th>Numero</th>
                         <th>Fecha</th>
-                        <th>Items</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </thead>
@@ -62,21 +111,20 @@ class MCrearPedido extends Component{
                         {   
 
                             this.state.pedidos.map(pedido => (
-                             
+                               
                               <tr className="items">
                                   <td>{pedido.numeroPedido}</td>
                                   <td>{pedido.fechaPedido}</td>
-                                  <td>{pedido.items.lenght}</td>
                                   <td>{pedido.estado}</td>
                                   <td>{pedido.estado === "pendiente"
                                   
                                     ? 
                                      <ButtonGroup>
-                                        <Button>Facturar</Button>
-                                        <Button>Agregar Items</Button>
+                                        <Button className="facturarButton" id={pedido.numeroPedido} onClick={this.handleFacturar} size="sm" >Facturar</Button>
+                                        <Button variant="secondary" className="agregarItemsButton" id={pedido.numeroPedido} onClick={this.handleAgregarItems} size="sm" >Agregar Items</Button>
                                      </ButtonGroup>
                                     :
-                                     <Button>Ver</Button>
+                                     <Button className="verButton" id={pedido.numeroPedido} onClick={this.handleVer} size="sm" >Ver</Button>
                                     
                                 }</td>
                                   
@@ -90,7 +138,7 @@ class MCrearPedido extends Component{
             </Modal.Body>
             <Modal.Footer>
               <ButtonGroup>
-                <Button onClick={this.props.onHide}>Close</Button>
+                <Button onClick={this.closeModal}>Cerrar</Button>
               </ButtonGroup>
               
             </Modal.Footer>
