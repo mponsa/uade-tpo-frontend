@@ -17,13 +17,14 @@ export default ({ childProps }) =>
     
     <AuthenticatedRoute path="/" exact component={Home} props={childProps} />
     <AuthenticatedRoute  path="/clientes" exact component = {Clientes} props={childProps}/>
+    <AuthenticatedRoute  path="/pedidos" exact component = {Pedidos} props={childProps}/>
     <AuthenticatedRoute  path="/productos" exact component = {Productos} props={childProps}/>
 
     {/*
     
+      <AuthenticatedRoute  path="/productos" exact component = {Productos} props={childProps}/>
       
       
-      <AuthenticatedRoute  path="/pedidos exact component = {Pedidos} props={childProps}/>
       <AuthenticatedRoute  path="/pedidos/:id" exact component = {Pedido} props={childProps}/>
       <AuthenticatedRoute  path="/pedidos/new" exact component = {productos} props={childProps}/>
     

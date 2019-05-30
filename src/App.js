@@ -1,8 +1,8 @@
 import React, { Component , Fragment} from "react";
-import { Navbar, Nav, NavDropdown, Button  } from "react-bootstrap";
+import { Navbar, Nav, Button  } from "react-bootstrap";
 import Routes from "./Routes.js";
 import "./App.css";
-import { Link, withRouter } from "react-router-dom";
+import {  withRouter } from "react-router-dom";
 
 
 class App extends Component {
@@ -32,7 +32,6 @@ class App extends Component {
     try {
       // Acá tendriamos que implementar el GET de la COOKIEEE y pasarle ese estado al método UUSER HAS AUTHENTICATED!!
       this.userHasAuthenticated(window.localStorage.getItem("loggedin"));
-      console.log("Usuario :: " + this.state.isAuthenticated)
     }
     catch(e) {
       if (e !== 'No current user') {
@@ -68,10 +67,9 @@ class App extends Component {
                   <Nav.Link href="#pedidos">Pedidos</Nav.Link>
                 </Nav.Item>
 
-                <NavDropdown title="Productos" id="nav-dropdown">
-                  <NavDropdown.Item href="/productos">Todos</NavDropdown.Item>
-                  <NavDropdown.Item eventKey="4.2">Buscar</NavDropdown.Item>
-                </NavDropdown>
+                <Nav.Item> 
+                  <Nav.Link href="/productos">Productos</Nav.Link>
+                </Nav.Item>
 
                 <Nav.Item onClick={this.handleLogout}>
                   <Button variant="primary">Logout</Button>
