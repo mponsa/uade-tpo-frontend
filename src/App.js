@@ -64,11 +64,11 @@ class App extends Component {
                 </Nav.Item>
 
                 <Nav.Item>
-                  <Nav.Link href="#productos">Productos</Nav.Link>
+                  <Nav.Link href="#pedidos">Pedidos</Nav.Link>
                 </Nav.Item>
 
                 <Nav.Item>
-                  <Nav.Link href="/pedidos">Pedidos</Nav.Link>
+                  <Nav.Link href="/productos">Productos</Nav.Link>
                 </Nav.Item>
 
                 <Nav.Item onClick={this.handleLogout}>
