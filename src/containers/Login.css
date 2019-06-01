@@ -7,4 +7,11 @@
       margin: 0 auto;
       max-width: 320px;
     }
+
+    .Login .chgPass {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 5%;
+    }
   }

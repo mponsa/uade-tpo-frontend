@@ -12,7 +12,7 @@ class Pedidos extends Component{
                         <Card.Header>
                             <Card.Title>Pedidos por cliente</Card.Title>
                         </Card.Header>
-                        <Card.Body>
+                        <Card.Body>    
                             <Card.Text>
                                 Seleccione un cliente de la lista para ver los pedidos que le corresponden.
                             </Card.Text>
@@ -24,7 +24,7 @@ class Pedidos extends Component{
                         <Card.Header>
                             <Card.Title>Pedidos por estado</Card.Title>
                         </Card.Header>
-                        <Card.Body>
+                        <Card.Body>    
                             <Card.Text>
                                 Seleccione un estado de la lista para ver los pedidos que le corresponden.
                             </Card.Text>
@@ -36,7 +36,7 @@ class Pedidos extends Component{
                         <Card.Header>
                             <Card.Title>Todos los pedidos</Card.Title>
                         </Card.Header>
-                        <Card.Body>
+                        <Card.Body>    
                             <Card.Text>
                                 Muestra todos los pedidos de la lista.
                             </Card.Text>
