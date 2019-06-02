@@ -22,7 +22,7 @@ class Pedido extends Component{
         }
 
     }
-    
+
     getPedido = () =>  {
         try{
             axios.get(api.path + `/pedido?numero=${this.props.match.params.id}`).then(response =>{
@@ -54,7 +54,7 @@ class Pedido extends Component{
                 alert(response.data.clientMessage)
                 this.getPedido();
             }else{
-                
+
                 alert(response.data.clientMessage);
             }
         })
@@ -74,7 +74,7 @@ class Pedido extends Component{
     handleAgregarItem = (identificador) => { // Función que ejecuta el "Agregar Items" del modal Productos.
         this.setState({'producto' : identificador,
                        'showC': true });
-                                
+
     }
 
     handleSetearCantidad = (c) => { //Función que ejecuta el modal de cantidad.
@@ -90,7 +90,7 @@ class Pedido extends Component{
                     this.getPedido();
                 }else{
                     alert(response.data.clientMessage);
-                }      
+                }
             })
         }catch(e){
             alert(e.message)
@@ -102,15 +102,15 @@ class Pedido extends Component{
         let showMPClose = () => this.setState({ 'showMP': false})
         let showCClose = () => this.setState({'showC': false})
         return(
-            this.state.isLoaded 
+            this.state.isLoaded
               ? <Card>
                 <Card.Header>Pedido número: {this.state.pedido.numeroPedido}</Card.Header>
                 <Card.Body>
                     <Card.Title>Cliente: {this.state.pedido.cliente.nombre} Cuil: {this.state.pedido.cliente.cuil}</Card.Title>
                     <Card.Text>
                     Fecha del pedido: {(new Date(this.state.pedido.fechaPedido)).getDate() + '/' +
-                                       ((new Date(this.state.pedido.fechaPedido)).getMonth() + 1) + '/' + 
-                                       (new Date(this.state.pedido.fechaPedido)).getFullYear()} 
+                                       ((new Date(this.state.pedido.fechaPedido)).getMonth() + 1) + '/' +
+                                       (new Date(this.state.pedido.fechaPedido)).getFullYear()}
                     </Card.Text>
                     <Card.Text>
                     Estado: {this.state.pedido.estado}
@@ -123,22 +123,22 @@ class Pedido extends Component{
                         <th>Total</th>
                     </thead>
                     <tbody>
-                        {   this.state.pedido.items 
-                        
+                        {   this.state.pedido.items
+
                             ?
 
                             this.state.pedido.items.map(item => (
-                             
+
                               <tr className="items">
                                   <td>{item.producto.nombre}</td>
                                   <td>{item.cantidad}</td>
                                   <td>{item.producto.precio}</td>
                                   <td>{item.producto.precio * item.cantidad}</td>
-                              </tr>  
+                              </tr>
                             ))
-                            : 
+                            :
                               <div className="noItemsMessage">No hay items para mostrar</div>
-                             
+
                         }
                     </tbody>
                 </Table>
@@ -147,18 +147,18 @@ class Pedido extends Component{
                     ?
                         <div>
                         <ButtonGroup>
-                            <Button className="agregarItemsButton" variant="secondary" onClick={this.handleAgregarItems}>Agregar Items</Button>
-                            <Button className="facturarButton" variant="primary" onClick={this.handleFacturar}>Facturar</Button>
-                            <Button className="delete" variant="primary" onClick={this.handleEliminar}>Eliminar</Button> 
+                            <Button className="agregarItemsButton" variant="primary" onClick={this.handleAgregarItems}>Agregar Items</Button>
+                            <Button className="facturarButton" variant="success" onClick={this.handleFacturar}>Facturar</Button>
+                            <Button className="delete" variant="danger" onClick={this.handleEliminar}>Eliminar</Button>
                         </ButtonGroup>
                         <MEliminarPedido show={this.state.showEP} onHide={showEPClose} pedido={this.state.pedido}  />
                         <MProductos show={this.state.showMP} onHide={showMPClose} agregarItem ={this.handleAgregarItem}/>
                         <MCantidad show={this.state.showC} onHide={showCClose} setearCantidad={this.handleSetearCantidad}/>
                         </div>
-                    : 
+                    :
                         <div><Button href="/"> Volver al inicio</Button></div>
                 }
-                </Card.Footer>  
+                </Card.Footer>
                 </Card.Body>
             </Card>
             : <div>Cargando</div>

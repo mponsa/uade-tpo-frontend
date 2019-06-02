@@ -10,9 +10,9 @@ import MVerPedidos  from './MVerPedidos.js';
 class Clientes extends Component {
     constructor(props) {
         super(props);
-        
+
         this.textInput = React.createRef()
-        
+
         this.handleCrearPedido = this.handleCrearPedido.bind(this);
 
         this.state = {
@@ -29,14 +29,14 @@ class Clientes extends Component {
       async componentDidMount(){
         try {
             axios.get(api.path + '/clientes').then(response =>{
-                if (response.data.errorCode === 0){    
+                if (response.data.errorCode === 0){
                     this.setState({
                         isLoaded : true,
                         filtered : response.data.result,
                         clientes : response.data.result})
                    }else{
                         alert(response.data.clientMessage)
-                  }  
+                  }
             })
           }
           catch(e) {
@@ -45,17 +45,17 @@ class Clientes extends Component {
         }
 
 
-      
+
        handleChange = e => {
          var input, filter, filtered;
          input = this.textInput.current
          filter = input.value.toUpperCase();
-         
+
 
          filtered = this.state.clientes.filter(function(cliente){
              return !cliente.nombre.indexOf(filter)
          })
-         
+
          this.setState({filtered : filtered})
 
          
@@ -67,7 +67,7 @@ class Clientes extends Component {
 
       }
 
-      
+
 
       handleMostrarPedidos = e => {
         this.setState({ 'cliente': this.state.clientes.find(cliente => cliente.numero == e.target.id),
@@ -77,10 +77,10 @@ class Clientes extends Component {
 
       render(){
         const clientes = this.state.filtered;
-        let showCPClose = () => this.setState({ 'showCP': false, 
+        let showCPClose = () => this.setState({ 'showCP': false,
                                                 'cliente': ''});
         let showVPClose = () => this.setState({ 'showVP': false,
-                                                'cliente': ''});      
+                                                'cliente': ''});
         if (this.state.isLoaded){
         return(
             <div className = "Clientes">
@@ -100,7 +100,7 @@ class Clientes extends Component {
                     </thead>
                     <tbody>
                         {clientes.map(cliente => (
-                            
+
                               <tr>
                                   <td>{cliente.numero}</td>
                                   <td>{cliente.nombre}</td>
@@ -110,16 +110,16 @@ class Clientes extends Component {
                                       <Button className="buttonCp" id={cliente.numero} variant="primary" size="sm" onClick={this.handleCrearPedido}>Crear pedido</Button>
                                       <Button className="buttonVp" id={cliente.numero} variant="secondary" size="sm" onClick={this.handleMostrarPedidos}>Ver pedidos</Button>
                                   </td>
-                              </tr>  
-                            
+                              </tr>
+
                         ))}
                     </tbody>
                 </Table>
                 <MCrearPedido show={this.state.showCP} onHide={showCPClose} cliente={this.state.cliente}/>
                 <MVerPedidos show={this.state.showVP} onHide={showVPClose} cliente={this.state.cliente}/>
 
-            </div>  
-            
+            </div>
+
           )
     }
     else{

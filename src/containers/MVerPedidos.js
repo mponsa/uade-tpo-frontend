@@ -32,7 +32,7 @@ class MVerPedidos extends Component{
                         var fdate = date.getDate() + '/' + (date.getMonth() + 1) +'/'+date.getFullYear();
                         element.fechaPedido = fdate;
                     });
-                    this.setState({ 
+                    this.setState({
                     'pedidos': response.data.result,
                     'filtered' : response.data.result,
                     'isLoaded':true})
@@ -46,7 +46,7 @@ class MVerPedidos extends Component{
         }catch(e){
             alert(e.message);
         }
-        }   
+        }
     }
 
     closeModal = () => {
@@ -58,14 +58,14 @@ class MVerPedidos extends Component{
         var input, filter, filtered;
         input = this.textInput.current
         filter = input.value.toLowerCase();
-        
+
         filtered = this.state.pedidos.filter(function(pedido){
             return !pedido.estado.indexOf(filter)
         })
-        
+
         this.setState({filtered : filtered})
 
-        
+
      }
 
 
@@ -100,10 +100,10 @@ class MVerPedidos extends Component{
                         <th>Acciones</th>
                     </thead>
                     <tbody>
-                        {   
+                        {
 
                             pedidos.map(pedido => (
-                               
+
                               <tr className="items">
                                   <td>{pedido.numeroPedido}</td>
                                   <td>{pedido.fechaPedido}</td>
@@ -112,11 +112,11 @@ class MVerPedidos extends Component{
                                     ? <Button className="verButton" id={pedido.numeroPedido} onClick={this.handleVer} size="sm" href={`/pedidos/${pedido.numeroPedido }`}>Ver</Button>
                                     : <Button variant="secondary" className="verButton" id={pedido.numeroPedido} onClick={this.handleVer} size="sm" href={`/pedidos/${pedido.numeroPedido }`}>Ver</Button>
                                 }</td>
-                                  
-                              </tr>  
+
+                              </tr>
                             ))
 
-                             
+
                         }
                     </tbody>
                 </Table>
@@ -125,7 +125,7 @@ class MVerPedidos extends Component{
               <ButtonGroup>
                 <Button onClick={this.closeModal}>Cerrar</Button>
               </ButtonGroup>
-              
+
             </Modal.Footer>
           </Modal>
         )
@@ -136,7 +136,7 @@ class MVerPedidos extends Component{
                         <h5> Cargando... </h5>
                     </Modal.Body>
              </Modal>
-        )
+            )
         }
     }
 }
