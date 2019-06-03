@@ -56,18 +56,41 @@ class Pedidos extends Component{
        this.setState({filtered : filtered})
     }
 
-    // handleCrearPedido = e => {
-    //   this.setState({ 'cliente': this.state.pedidos.find(cliente => cliente.numero == e.target.id),
-    //                   'showCP':true})
-    // }
 
-    // handleMostrarPedidos = e => {
-    //   this.setState({ 'cliente': this.state.pedidos.find(cliente => cliente.numero == e.target.id),
-    //                   'showVP':true});
-    // }
+    handleShowPedidos = () => {
+        if(this.props.show){
+          try {
+              axios.post(api.path + '/pedidos').then(response => {
+                  if(response.data.errorCode === 0){
+                      response.data.result.map(element => {
+                          var date = new Date(element.fechaPedido);
+                          var fdate = date.getDate() + '/' + (date.getMonth() + 1) +'/'+date.getFullYear();
+                          element.fechaPedido = fdate;
+                      });
+                      this.setState({
+                        'pedidos': response.data.result,
+                        'filtered' : response.data.result,
+                        'isLoaded':true
+                      })
+                  }else{
+                      if( this.props.show ){
+                          alert(response.data.clientMessage);
+                          this.closeModal();
+                      }
+                  }
+              })
+          }catch(e){
+              alert(e.message);
+          }
+        }
+    }
 
     render(){
       const pedidos = this.state.filtered;
+
+      if (this.props.show && this.state.isLoaded === false){
+          this.handleShowPedidos();
+      }
       // let showCPClose = () => this.setState({ 'showCP': false,
       //                                         'cliente': ''});
       // let showVPClose = () => this.setState({ 'showVP': false,
