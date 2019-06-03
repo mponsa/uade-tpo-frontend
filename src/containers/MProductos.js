@@ -67,7 +67,7 @@ class MProductos extends Component{
 
     render(){
         const productos = this.state.filtered;
-        if (this.props.show && this.state.isLoaded == false){
+        if (this.props.show && this.state.isLoaded === false){
             this.handleShowProductos();
         }
         if (this.state.isLoaded){
@@ -110,7 +110,7 @@ class MProductos extends Component{
                                   <td>{producto.precio}</td>
                                   <td>{this.props.buscador
                                     ?   //Si es un buscador damos la posibilidad de ver el producto para (Modificar, Eliminar)
-                                        <Button className="verButton" id={producto.identificador} onClick={this.handleVer} size="sm" href="#{`/productos/${producto.numeroPedido }`}">Ver</Button>
+                                        <Button className="verButton" id={producto.identificador} onClick={this.handleVer} size="sm" href="#productos">Ver</Button>
                                     :   //Si no es un buscador, es llamado desde Pedidos, y devuelve la función prop de agregar Items al producto.
                                         <Button variant="secondary" id={producto.identificador} onClick={this.agregarItem} size="sm">Agregar Item</Button>
                                 }</td>

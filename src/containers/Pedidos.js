@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Card, CardGroup,Container} from 'react-bootstrap';
+import {Card, CardGroup} from 'react-bootstrap';
 
 
 class Pedidos extends Component{
