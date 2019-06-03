@@ -12,8 +12,6 @@ class Pedidos extends Component{
 
       this.textInput = React.createRef();
 
-      //this.handleCrearPedido = this.handleCrearPedido.bind(this);
-
       this.state = {
           'isLoaded': false,
           'pedidos': [] ,
