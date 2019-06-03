@@ -18,7 +18,7 @@ class MCrearPedido extends Component{
     }
 
     handleCrearPedido = e => {
-      
+
         try {
                 axios.post(api.path + '/crearPedido',{
                   'cliente': this.props.cliente
@@ -34,8 +34,8 @@ class MCrearPedido extends Component{
         }catch(e){
             alert(e.message)
         }
-        
-        
+
+
     }
 
     closeModal = () => {
@@ -46,13 +46,13 @@ class MCrearPedido extends Component{
     render(){
         if (this.state.isLoaded){
         return(
-            <Modal {...this.props} aria-labelledby="contained-modal-title-vcenter">
+          <Modal {...this.props} aria-labelledby="contained-modal-title-vcenter">
             <Modal.Header>
               <Modal.Title id="contained-modal-title-vcenter">
-                Nº Pedido: {this.state.pedido.numeroPedido}
+                Se ha creado el Pedido Nº: {this.state.pedido.numeroPedido}
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>          
+            <Modal.Body>
                 <Row>
                     <Col>
                         Cliente:
@@ -82,12 +82,12 @@ class MCrearPedido extends Component{
                         <th>Total</th>
                     </thead>
                     <tbody>
-                        {   this.state.pedido.items.lenght > 0 
-                        
+                        {   this.state.pedido.items.lenght > 0
+
                             ?
 
                             this.state.pedido.items.map(item => (
-                             
+
                               <tr className="items">
                                   <td>{item.producto.nombre}</td>
                                   <td>{item.cantidad}</td>
@@ -97,21 +97,20 @@ class MCrearPedido extends Component{
                                       <Button>Crear pedido</Button>
                                       <Button>Ver pedidos</Button>
                                   </td>
-                              </tr>  
+                              </tr>
                             ))
-                            : 
+                            :
                               <div className="noItemsMessage">No hay items para mostrar</div>
-                             
+
                         }
                     </tbody>
                 </Table>
             </Modal.Body>
             <Modal.Footer>
               <ButtonGroup>
-                <Button className="agregarItems" variant="secondary" onClick={this.handleAgregarItems}>Agregar Items</Button>
-                <Button onClick={this.closeModal}>Cerrar</Button>
+                <Button action href={`/pedidos/${this.state.pedido.numeroPedido}`}>Ir al Pedido</Button>
+                <Button variant="danger" onClick={this.closeModal}>Cerrar</Button>
               </ButtonGroup>
-              
             </Modal.Footer>
           </Modal>
         )

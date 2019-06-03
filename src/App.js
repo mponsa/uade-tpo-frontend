@@ -75,7 +75,7 @@ class App extends Component {
                 <Nav.Item> 
                   <NavDropdown title="Productos" id="collasible-nav-dropdown">
                     <NavDropdown.Item onClick={this.handleBuscarProductos}>Busqueda de productos</NavDropdown.Item>
-                    <NavDropdown.Item href="#abrir /productos/new">Nuevo Producto</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.1">Nuevo Producto</NavDropdown.Item>
                   </NavDropdown>
                 </Nav.Item>
 
