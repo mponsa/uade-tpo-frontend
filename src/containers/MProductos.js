@@ -90,6 +90,7 @@ class MProductos extends Component{
                 </InputGroup>
                 <Table className="productosTable" id="table">
                     <thead>
+                        <th>#</th>
                         <th>Nombre</th>
                         <th>Marca</th>
                         <th>Rubro</th>
@@ -103,14 +104,17 @@ class MProductos extends Component{
                             productos.map(producto => (
                                
                               <tr className="items">
+                                  <td>{producto.identificador}</td>
                                   <td>{producto.nombre}</td>
                                   <td>{producto.marca}</td>
                                   <td>{producto.rubro.descripcion}</td>
                                   <td>{producto.subRubro.descripcion}</td>
-                                  <td>{producto.precio}</td>
+                                  <td>$ {producto.precio}</td>
                                   <td>{this.props.buscador
                                     ?   //Si es un buscador damos la posibilidad de ver el producto para (Modificar, Eliminar)
-                                        <Button className="verButton" id={producto.identificador} onClick={this.handleVer} size="sm" href="#{`/productos/${producto.numeroPedido }`}">Ver</Button>
+                                        <Button className="verButton" id={producto.identificador} onClick={this.handleVer} size="sm" href={`/producto/${producto.identificador}`}>Ver</Button>
+                                        //Posibilidad de Eliminar un Producto
+                                        //<Button className="verButton" id={producto.identificador} onClick={this.handleVer} size="sm" href={`/bajaProducto/${producto}`}>Eliminar</Button>
                                     :   //Si no es un buscador, es llamado desde Pedidos, y devuelve la función prop de agregar Items al producto.
                                         <Button variant="secondary" id={producto.identificador} onClick={this.agregarItem} size="sm">Agregar Item</Button>
                                 }</td>
