@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import api from '../components/Api.js';
-import { Modal, Button, ButtonGroup, Table, Row, Col ,FormGroup, FormControl, FormLabel } from "react-bootstrap";
+import { Modal, Button, ButtonGroup, Table, Row, Col } from "react-bootstrap";
 import './MCrearPedido.css';
 
 

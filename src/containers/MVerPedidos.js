@@ -71,7 +71,7 @@ class MVerPedidos extends Component{
 
     render(){
         const pedidos = this.state.filtered;
-        if (this.props.show && this.state.isLoaded == false){
+        if (this.props.show && this.state.isLoaded === false){
             this.handleShowPedidos();
         }
         if (this.state.isLoaded){

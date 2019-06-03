@@ -6,6 +6,7 @@ import NotFound from "./containers/NotFound";
 import Clientes from "./containers/Clientes";
 import Pedidos from "./containers/Pedidos";
 import Pedido from "./containers/Pedido";
+import Producto from "./containers/Producto";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 
@@ -18,10 +19,11 @@ export default ({ childProps }) =>
     <AuthenticatedRoute  path="/clientes" exact component = {Clientes} props={childProps}/>
     <AuthenticatedRoute  path="/pedidos" exact component = {Pedidos} props={childProps}/>
     <AuthenticatedRoute  path="/pedidos/:id" exact component = {Pedido} props={childProps}/>
+    <AuthenticatedRoute  path="/producto/:id" exact component = {Producto} props={childProps}/>
     
     {/*
     
-      <AuthenticatedRoute  path="/productos" exact component = {Productos} props={childProps}/>
+      
       
       
       

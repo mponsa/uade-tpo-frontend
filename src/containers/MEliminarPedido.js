@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import api from '../components/Api.js';
-import { Modal, Button, ButtonGroup, Table, Row, Col ,FormGroup, FormControl, FormLabel } from "react-bootstrap";
+import { Modal, Button, ButtonGroup} from "react-bootstrap";
 import './MCrearPedido.css';
 import {  withRouter } from "react-router-dom";
 
@@ -20,7 +20,7 @@ class MEliminarPedido extends Component{
             axios.post(api.path + '/eliminarPedido',{
                 numeroPedido : this.state.pedido.numeroPedido
             }).then(response => {
-                if(response.data.errorCode == 0){
+                if(response.data.errorCode === 0){
                     alert(response.data.clientMessage);
                     this.props.history.push("/clientes");
                 }
