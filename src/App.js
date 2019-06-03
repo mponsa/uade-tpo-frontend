@@ -1,8 +1,9 @@
 import React, { Component , Fragment} from "react";
-import { Navbar, Nav, Button  } from "react-bootstrap";
+import { Navbar, Nav, Button , NavDropdown } from "react-bootstrap";
 import Routes from "./Routes.js";
 import "./App.css";
 import {  withRouter } from "react-router-dom";
+import MProductos from "./containers/MProductos.js";
 
 
 class App extends Component {
@@ -10,7 +11,8 @@ class App extends Component {
     super(props);
     this.state = {
       isAuthenticated: false,
-      isAuthenticating: true
+      isAuthenticating: true,
+      showMP: false,
     };
   }
   
@@ -42,7 +44,14 @@ class App extends Component {
     this.setState({ isAuthenticating: false });
   }
 
+  handleBuscarProductos = () => {
+    this.setState({showMP:true})
+  }
+
+
   render() {
+    let showMPClose = () => this.setState({ 'showMP': false})
+    
     const childProps = {
       isAuthenticated: this.state.isAuthenticated,
       userHasAuthenticated: this.userHasAuthenticated
@@ -64,7 +73,10 @@ class App extends Component {
                 </Nav.Item>
 
                 <Nav.Item> 
-                  <Nav.Link href="#productos">Productos</Nav.Link>
+                  <NavDropdown title="Productos" id="collasible-nav-dropdown">
+                    <NavDropdown.Item onClick={this.handleBuscarProductos}>Busqueda de productos</NavDropdown.Item>
+                    <NavDropdown.Item href="#abrir /productos/new">Nuevo Producto</NavDropdown.Item>
+                  </NavDropdown>
                 </Nav.Item>
 
                 <Nav.Item> 
@@ -86,6 +98,7 @@ class App extends Component {
           </Navbar.Collapse>
         </Navbar>
         <Routes childProps={childProps} />
+        <MProductos show={this.state.showMP} onHide={showMPClose} buscador={true}/>
       </div>
     );
   }

@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import api from '../components/Api.js';
-import { Modal, Button, ButtonGroup, Table} from "react-bootstrap";
+import { Modal, Button, ButtonGroup, Table , InputGroup , FormControl} from "react-bootstrap";
 import './MVerPedidos.css';
 
 
 
-class MCrearPedido extends Component{
+class MVerPedidos extends Component{
     constructor(props){
         super(props);
-
+        this.textInput = React.createRef()
         this.state = {
             show : '',
             cliente : '',
             pedidos : '',
+            filtered : '',
             pedido : '',
             isLoaded: false
         }
@@ -33,6 +34,7 @@ class MCrearPedido extends Component{
                     });
                     this.setState({ 
                     'pedidos': response.data.result,
+                    'filtered' : response.data.result,
                     'isLoaded':true})
                 }else{
                     if( this.props.show ){
@@ -52,39 +54,23 @@ class MCrearPedido extends Component{
         this.props.onHide();
     }
 
-    handleFacturar = e => {
-        let id = parseInt(e.target.id);
-
-        try {
-            axios.post(api.path + '/facturarPedido',{
-              'numeroPedido': id
-        }).then(response => {
-            if(response.data.errorCode === 0){
-                alert(response.data.clientMessage)
-                //Cambiar estado del pedido que inicio el proceso desde el cliente.
-                this.state.pedidos.map(element => {
-                    if (element.numero == id){
-                        element.estado = "facturado";
-                    }
-                });
-                this.setState({isLoaded:false});
-            }else{
-                
-                alert(response.data.clientMessage);
-            }
+    handleChange = e => {
+        var input, filter, filtered;
+        input = this.textInput.current
+        filter = input.value.toLowerCase();
+        
+        filtered = this.state.pedidos.filter(function(pedido){
+            return !pedido.estado.indexOf(filter)
         })
-    }catch(e){
-        alert(e.message)
-    }
-    }   
-    
+        
+        this.setState({filtered : filtered})
 
-    handleAgregarItems = e => {
-        alert(e.target.id)
-    }
-    
+        
+     }
+
 
     render(){
+        const pedidos = this.state.filtered;
         if (this.props.show && this.state.isLoaded == false){
             this.handleShowPedidos();
         }
@@ -100,6 +86,12 @@ class MCrearPedido extends Component{
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <InputGroup className="mb-3" onChange={this.handleChange}>
+                    <InputGroup.Prepend>
+                        <InputGroup.Text id="inputGroup-sizing-sm">Estado</InputGroup.Text>
+                    </InputGroup.Prepend>
+                <FormControl aria-describedby="basic-addon1" ref={this.textInput}/>
+                </InputGroup>
                 <Table className="pedidosTable" id="table">
                     <thead>
                         <th>Numero</th>
@@ -110,22 +102,15 @@ class MCrearPedido extends Component{
                     <tbody>
                         {   
 
-                            this.state.pedidos.map(pedido => (
+                            pedidos.map(pedido => (
                                
                               <tr className="items">
                                   <td>{pedido.numeroPedido}</td>
                                   <td>{pedido.fechaPedido}</td>
                                   <td>{pedido.estado}</td>
                                   <td>{pedido.estado === "pendiente"
-                                  
-                                    ? 
-                                     <ButtonGroup>
-                                        <Button className="facturarButton" id={pedido.numeroPedido} onClick={this.handleFacturar} size="sm" >Facturar</Button>
-                                        <Button variant="secondary" className="agregarItemsButton" id={pedido.numeroPedido} onClick={this.handleAgregarItems} size="sm" >Agregar Items</Button>
-                                     </ButtonGroup>
-                                    :
-                                     <Button className="verButton" id={pedido.numeroPedido} onClick={this.handleVer} size="sm" >Ver</Button>
-                                    
+                                    ? <Button className="verButton" id={pedido.numeroPedido} onClick={this.handleVer} size="sm" href={`/pedidos/${pedido.numeroPedido }`}>Ver</Button>
+                                    : <Button variant="secondary" className="verButton" id={pedido.numeroPedido} onClick={this.handleVer} size="sm" href={`/pedidos/${pedido.numeroPedido }`}>Ver</Button>
                                 }</td>
                                   
                               </tr>  
@@ -155,4 +140,4 @@ class MCrearPedido extends Component{
         }
     }
 }
-export default MCrearPedido;
+export default MVerPedidos;

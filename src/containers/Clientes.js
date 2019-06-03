@@ -1,4 +1,4 @@
-import React, { ReactDOM , Component } from "react";
+import React, { Component } from "react";
 import axios from 'axios';
 import api from '../components/Api.js';
 import {Table,InputGroup,FormControl,Button,Modal} from 'react-bootstrap';
