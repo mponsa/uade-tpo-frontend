@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import {Card, CardGroup, Container, Modal, Button, ButtonGroup, Table, InputGroup, FormControl} from 'react-bootstrap';
 import axios from 'axios';
 import api from '../components/Api.js';
+import {Card, CardGroup, Container, Modal, Button, ButtonGroup, Table, InputGroup, FormControl} from 'react-bootstrap';
 import './Pedidos.css';
 
 
@@ -18,8 +18,6 @@ class Pedidos extends Component{
           'isLoaded': false,
           'pedidos': [] ,
           'filtered': [] ,
-          'showCP':false,//muestra el modal de crear pedido
-          'showVP':false, //muestra el modal de mostrar pedidos para el cliente.
           'estado': ''
       };
 
@@ -50,7 +48,7 @@ class Pedidos extends Component{
 
 
        filtered = this.state.pedidos.filter(function(pedido){
-           return !pedido.estado.indexOf(filter)
+           return !pedido.estado.toLowerCase().indexOf(filter)
        })
 
        this.setState({filtered : filtered})
@@ -91,10 +89,7 @@ class Pedidos extends Component{
       if (this.props.show && this.state.isLoaded === false){
           this.handleShowPedidos();
       }
-      // let showCPClose = () => this.setState({ 'showCP': false,
-      //                                         'cliente': ''});
-      // let showVPClose = () => this.setState({ 'showVP': false,
-      //                                         'cliente': ''});
+
       if (this.state.isLoaded){
           return(
               <div className = "Pedidos">
@@ -150,7 +145,7 @@ class Pedidos extends Component{
                          <th>Estado</th>
                      </thead>
                      <tbody>
-                         {this.state.pedidos.map(pedido => (
+                         {pedidos.map(pedido => (
 
                                <tr>
                                    <td>{pedido.numeroPedido}</td>
@@ -170,8 +165,7 @@ class Pedidos extends Component{
                          ))}
                      </tbody>
                  </Table>
-                  {/*<MCrearPedido show={this.state.showCP} onHide={showCPClose} cliente={this.state.cliente}/>*/}
-                  {/*<MVerPedidos show={this.state.showVP} onHide={showVPClose} cliente={this.state.cliente}/>*/}
+
               </div>
         )
       }
