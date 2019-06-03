@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import api from '../components/Api.js';
-import { Card,Modal, Button, ButtonGroup, Table} from "react-bootstrap";
+import { Card, Button, ButtonGroup, Table} from "react-bootstrap";
 import MEliminarPedido from  './MEliminarPedido';
 import MProductos from "./MProductos.js";
 import MCantidad from "./MCantidad.js";
@@ -26,7 +26,7 @@ class Pedido extends Component{
     getPedido = () =>  {
         try{
             axios.get(api.path + `/pedido?numero=${this.props.match.params.id}`).then(response =>{
-                if(response.data.errorCode == 0){
+                if(response.data.errorCode === 0){
                     this.setState({pedido : response.data.result,
                                    isLoaded: true})
                 }else{
@@ -85,7 +85,7 @@ class Pedido extends Component{
                 productoId : this.state.producto,
                 cantidad : c
             }).then(response => {
-                if(response.data.errorCode == 0){
+                if(response.data.errorCode === 0){
                     alert(response.data.clientMessage);
                     this.getPedido();
                 }else{
@@ -143,7 +143,7 @@ class Pedido extends Component{
                     </tbody>
                 </Table>
                 <Card.Footer>
-                {this.state.pedido.estado == "pendiente"
+                {this.state.pedido.estado === "pendiente"
                     ?
                         <div>
                         <ButtonGroup>

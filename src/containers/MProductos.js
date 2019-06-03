@@ -67,7 +67,7 @@ class MProductos extends Component{
 
     render(){
         const productos = this.state.filtered;
-        if (this.props.show && this.state.isLoaded == false){
+        if (this.props.show && this.state.isLoaded === false){
             this.handleShowProductos();
         }
         if (this.state.isLoaded){
