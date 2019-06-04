@@ -91,44 +91,6 @@ class Pedidos extends Component{
       if (this.state.isLoaded){
           return(
               <div className = "Pedidos">
-                  {/*<CardGroup>
-                      <Card class="option" >
-                          <Card.Header>
-                              <Card.Title>Pedidos por cliente</Card.Title>
-                          </Card.Header>
-                          <Card.Body>
-                              <Card.Text>
-                                  Seleccione un cliente de la lista para ver los pedidos que le corresponden.
-                              </Card.Text>
-                              <Card.Link href="#">Card Link</Card.Link>
-                              <Card.Link href="#">Another Link</Card.Link>
-                          </Card.Body>
-                      </Card>
-                      <Card class="option" >
-                          <Card.Header>
-                              <Card.Title>Pedidos por estado</Card.Title>
-                          </Card.Header>
-                          <Card.Body>
-                              <Card.Text>
-                                  Seleccione un estado de la lista para ver los pedidos que le corresponden.
-                              </Card.Text>
-                              <Card.Link href="#">Card Link</Card.Link>
-                              <Card.Link href="#">Another Link</Card.Link>
-                          </Card.Body>
-                      </Card>
-                      <Card class="option" >
-                          <Card.Header>
-                              <Card.Title>Todos los pedidos</Card.Title>
-                          </Card.Header>
-                          <Card.Body>
-                              <Card.Text>
-                                  Muestra todos los pedidos de la lista.
-                              </Card.Text>
-                              <Card.Link href="#">Card Link</Card.Link>
-                              <Card.Link href="#">Another Link</Card.Link>
-                          </Card.Body>
-                      </Card>
-                  </CardGroup>*/}
                   <InputGroup className="mb-3" onChange={this.handleChange}>
                      <InputGroup.Prepend>
                          <InputGroup.Text id="inputGroup-sizing-sm">Pedidos en Estado</InputGroup.Text>
@@ -155,8 +117,10 @@ class Pedidos extends Component{
                                    </td>
                                    <td>{pedido.estado}</td>
                                    <td>
-                                       {/* <Button className="buttonCp" id={cliente.numero} variant="primary" size="sm" onClick={this.handleCrearPedido}>Crear pedido</Button>*/}
-                                        <Button action href={`/pedidos/${pedido.numeroPedido}`}>Ver Detalles</Button>
+                                       {pedido.estado === "pendiente" 
+                                       ? <Button variant="primary" href={`/pedidos/${pedido.numeroPedido}`}>Ver Detalles</Button>
+                                       : <Button variant="secondary" href={`/pedidos/${pedido.numeroPedido}`}>Ver Detalles</Button>  }
+                                        
                                    </td>
                                </tr>
 

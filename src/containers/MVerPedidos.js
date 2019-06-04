@@ -109,8 +109,8 @@ class MVerPedidos extends Component{
                                   <td>{pedido.fechaPedido}</td>
                                   <td>{pedido.estado}</td>
                                   <td>{pedido.estado === "pendiente"
-                                    ? <Button className="verButton" id={pedido.numeroPedido} onClick={this.handleVer} size="sm" href={`/pedidos/${pedido.numeroPedido }`}>Ver</Button>
-                                    : <Button variant="secondary" className="verButton" id={pedido.numeroPedido} onClick={this.handleVer} size="sm" href={`/pedidos/${pedido.numeroPedido }`}>Ver</Button>
+                                    ? <Button className="verButton" id={pedido.numeroPedido} onClick={this.handleVer} size="sm" href={`/pedidos/${pedido.numeroPedido }`}>Ver Detalle</Button>
+                                    : <Button variant="secondary" className="verButton" id={pedido.numeroPedido} onClick={this.handleVer} size="sm" href={`/pedidos/${pedido.numeroPedido }`}>Ver Detalle</Button>
                                 }</td>
 
                               </tr>
