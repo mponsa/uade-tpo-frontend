@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from 'axios';
 import api from '../components/Api.js';
 import { Card, Button, ButtonGroup, Table} from "react-bootstrap";
-import MEliminarPedido from  './MEliminarPedido';
+import MEliminar from  './MEliminar';
 import MProductos from "./MProductos.js";
 import MCantidad from "./MCantidad.js";
 
@@ -34,8 +34,8 @@ class Pedido extends Component{
                 }
             })
         }
-        catch{
-
+        catch(e){
+            alert(e.message)
         }
     }
 
@@ -59,7 +59,7 @@ class Pedido extends Component{
             }
         })
     }catch(e){
-        alert(e.message)
+        alert(e.message);
     }
     }
 
@@ -93,7 +93,7 @@ class Pedido extends Component{
                 }
             })
         }catch(e){
-            alert(e.message)
+            alert(e.message);
         }
     }
 
@@ -151,7 +151,7 @@ class Pedido extends Component{
                             <Button className="facturarButton" variant="success" onClick={this.handleFacturar}>Facturar</Button>
                             <Button className="delete" variant="danger" onClick={this.handleEliminar}>Eliminar</Button>
                         </ButtonGroup>
-                        <MEliminarPedido show={this.state.showEP} onHide={showEPClose} pedido={this.state.pedido}  />
+                        <MEliminar show={this.state.showEP} onHide={showEPClose} pedido={this.state.pedido}  />
                         <MProductos show={this.state.showMP} onHide={showMPClose} agregarItem ={this.handleAgregarItem}/>
                         <MCantidad show={this.state.showC} onHide={showCClose} setearCantidad={this.handleSetearCantidad}/>
                         </div>
