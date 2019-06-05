@@ -3,7 +3,7 @@ import axios from 'axios';
 import api from '../components/Api.js';
 import {Card, ButtonGroup,Modal, Button, Table} from "react-bootstrap";
 import MEliminar from './MEliminar.js';
-import MModProductos from './MModProductos.js';
+import MCMProductos from './MCMProductos.js';
 
 class Producto extends Component{
     constructor(props){
@@ -79,7 +79,7 @@ class Producto extends Component{
                                 <Button className="delete" variant="danger" onClick={this.handleEliminar}>Eliminar</Button>
                             </ButtonGroup>
                             <MEliminar show={this.state.showEP} onHide={showEPClose} producto={this.state.producto}  />
-                            <MModProductos show={this.state.showMP} onHide={showMPClose} producto={this.state.producto} handleMod = {this.handleModificacion} /> 
+                            <MCMProductos show={this.state.showMP} onHide={showMPClose} producto={this.state.producto} handleMod = {this.handleModificacion} /> 
                             {/*<MEliminarPedido show={this.state.showEP} onHide={showEPClose} pedido={this.state.pedido}  />
                             <MProductos show={this.state.showMP} onHide={showMPClose} agregarItem ={this.handleAgregarItem}/>
                             <MCantidad show={this.state.showC} onHide={showCClose} setearCantidad={this.handleSetearCantidad/>}*/}       

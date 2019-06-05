@@ -4,6 +4,7 @@ import Routes from "./Routes.js";
 import "./App.css";
 import {  withRouter } from "react-router-dom";
 import MProductos from "./containers/MProductos.js";
+import MCMProductos from "./containers/MCMProductos.js";
 
 
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
       isAuthenticated: false,
       isAuthenticating: true,
       showMP: false,
+      showCP: false,
     };
   }
   
@@ -48,10 +50,14 @@ class App extends Component {
     this.setState({showMP:true})
   }
 
+  handleCrearNuevoProducto = () => {
+    this.setState({showCP:true})
+  }
+
 
   render() {
     let showMPClose = () => this.setState({ 'showMP': false})
-    
+    let showCPClose = () => this.setState({ 'showCP': false})
     const childProps = {
       isAuthenticated: this.state.isAuthenticated,
       userHasAuthenticated: this.userHasAuthenticated
@@ -75,7 +81,7 @@ class App extends Component {
                 <Nav.Item> 
                   <NavDropdown title="Productos" id="collasible-nav-dropdown">
                     <NavDropdown.Item onClick={this.handleBuscarProductos}>Busqueda de productos</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.1">Nuevo Producto</NavDropdown.Item>
+                    <NavDropdown.Item onClick={this.handleCrearNuevoProducto}>Nuevo Producto</NavDropdown.Item>
                   </NavDropdown>
                 </Nav.Item>
 
@@ -99,6 +105,7 @@ class App extends Component {
         </Navbar>
         <Routes childProps={childProps} />
         <MProductos show={this.state.showMP} onHide={showMPClose} buscador={true}/>
+        <MCMProductos show={this.state.showCP} onHide={showCPClose}/>
       </div>
     );
   }

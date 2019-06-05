@@ -5,25 +5,26 @@ import { Modal, Button, ButtonGroup, Form, Col, FormControl} from "react-bootstr
 
 
 
-class MProductos extends Component{
+class MCMProductos extends Component{
     constructor(props){
         super(props);
         this.rubroSelection = React.createRef();
         this.subRubroSelection = React.createRef();
         this.state = {
             show : this.props.show,
-            producto : this.props.producto,
+            producto : this.props.producto, //Si viene vacío es NEW Producto.
             rubros: '',
             subRubros: '',
             filteredSubRubros: '',
             isLoadedR: false,
             isLoadedSR: false,
-            //Nuevos valores para el producto.
+            //Nuevos valores para el producto tanto si se modifica cómo si se crea uno nuevo.
             rubro: '',
             subRubro: '',
             nombre: '',
             marca: '',
             precio: '',
+            codigoBarras: '',
         }
     }
 
@@ -42,7 +43,9 @@ class MProductos extends Component{
             axios.get(api.path + '/rubros').then(response => {
                 if(response.data.errorCode === 0){
                     var filteredRubros = response.data.result;
-                    filteredRubros.unshift(this.state.producto.rubro);
+                    if(this.state.producto){
+                        filteredRubros.unshift(this.state.producto.rubro); //Si hay un producto, pone el rubro primero en el dropdown
+                    }
                     this.setState({rubros : response.data.result,
                                    filteredRubros : filteredRubros,
                                    isLoadedR: true})
@@ -102,37 +105,53 @@ class MProductos extends Component{
 
     handleChange = e => {
         this.setState({
-            [e.target.id]: e.target.value
+           [e.target.id]: e.target.value
           });
-        console.log(this.state.nombre)
+          
     }
 
 
     handleSubmit = e => {
+        
+        if(this.state.producto != ''){
         //Se cambian sólo los campos que tuvieron modificación
-        if(this.state.nombre){this.state.producto.nombre = this.state.nombre}
-        if(this.state.marca){this.state.producto.marca = this.state.marca}
-        if(this.state.precio){this.state.producto.precio = this.state.precio}
-        if(this.state.rubro){this.state.producto.rubro = this.state.rubro}
-        if(this.state.subRubro){this.state.producto.subRubro = this.state.subRubro}
-
-        try{
-            axios.post(api.path + '/modificarProducto', this.state.producto).then(response=>{
-                
-                    alert(response.data.clientMessage);
-               
-            })
-            this.props.handleMod();
             
-        }catch(e){
-            alert(e.message);
-        }
 
+            try{
+                axios.post(api.path + '/modificarProducto', this.state.producto).then(response=>{
+                    
+                        alert(response.data.clientMessage);
+                
+                })
+                this.props.handleMod();
+                
+            }catch(e){
+                alert(e.message);
+            }
+        }else{
+
+
+            try{
+                axios.post(api.path + '/altaProducto', this.state.producto).then(response=>{
+                    
+                    alert(response.data.clientMessage);
+                   
+                })      
+            }catch(e){
+                alert(e.message);
+            }
+        }
 
     }
 
     validateForm() {
-        return this.state.precio > 0;
+        return this.state.producto 
+        ? this.state.precio > 0 
+        : this.state.precio > 0 && this.state.nombre != '' && 
+        this.state.marca != '' && 
+        this.state.rubro != '' && 
+        this.state.subRubro != '' &&
+        this.state.codigoBarras != '';
       }
 
 
@@ -141,6 +160,7 @@ class MProductos extends Component{
                        subRubro:'',
                        nombre:'',
                        marca:'',
+                       codigoBarras:'',
                        precio:'',
                        filteredSubRubros: ''})
         this.props.onHide();
@@ -158,7 +178,7 @@ class MProductos extends Component{
             centered>
             <Modal.Header closeButton>
               <Modal.Title id="contained-modal-title-vcenter">
-                Modificar producto
+                {this.state.producto ? "Modificar Producto" : "Crear Producto"}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -166,35 +186,51 @@ class MProductos extends Component{
                 <Form.Row>
                 <Form.Group as={Col} controlId="nombre">
                     <Form.Label>Nombre</Form.Label>
-                    <Form.Control type="text" placeholder={this.state.producto.nombre} onChange={this.handleChange} />
+                    <Form.Control type="text" plaintext={this.state.producto} onChange={this.handleChange} readOnly={this.state.producto} defaultValue={this.state.producto ? this.state.producto.nombre : ''}/>
                 </Form.Group>
                 <Form.Group as={Col} controlId="marca">
                     <Form.Label>Marca</Form.Label>
-                    <Form.Control type="text" placeholder={this.state.producto.marca} onChange={this.handleChange} />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formCodBarra">
-                    <Form.Label>Código de barras</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue={this.state.producto.codigoBarras}/>
-                    <Form.Text className="text-muted">
-                        No se permite modificar el código de barras.
-                    </Form.Text>
+                    <Form.Control type="text" plaintext={this.state.producto} onChange={this.handleChange} readOnly={this.state.producto} defaultValue={this.state.producto ? this.state.producto.marca : ''}/>
                 </Form.Group>
                 </Form.Row>
-                <Form.Group controlId="formRubro">
-                <Form.Label>Rubro</Form.Label>
-                    <Form.Control as="select" onChange={this.handleRubroChange} ref={this.rubroSelection}>
-                        {this.state.filteredRubros.map(rubro => (
-                            <option id={rubro.codigo}>
-                                {rubro.descripcion}
-                            </option>
-                        ))}
-                    </Form.Control>
-                </Form.Group>
-                <Form.Group controlId="formSubRubro">
-                <Form.Label>SubRubro</Form.Label>
-                    <Form.Control as="select" onChange={this.handleSubRubroChange} ref={this.subRubroSelection}>
-                        {this.state.rubro 
-                        ? this.state.filteredSubRubros 
+                
+                {this.state.producto
+                ?   
+                <Form.Row> 
+                    <Form.Group as={Col} controlId="formRubro">
+                        <Form.Label>Rubro</Form.Label>
+                        <Form.Control type="text" plaintext={this.state.producto} onChange={this.handleChange} readOnly={this.state.producto} defaultValue={this.state.producto ? this.state.producto.rubro.descripcion : ''}/>
+                    </Form.Group>
+            
+                   <Form.Group as={Col} controlId="formSubRubro">
+                        <Form.Label>SubRubro</Form.Label>
+                        <Form.Control type="text" plaintext readOnly defaultValue={this.state.producto ? this.state.producto.subRubro.descripcion : ''}/>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="formCodBarra">
+                        <Form.Label>Código de barras</Form.Label>
+                        <Form.Control type="text" plaintext readOnly defaultValue={this.state.producto ? this.state.producto.codigoBarras : ''}/>
+                        <Form.Text className="text-muted">
+                            No se permite modificar el código de barras.
+                        </Form.Text>
+                    </Form.Group>
+                </Form.Row> 
+                :
+                <Form.Row>
+                    <Form.Group as={Col} controlId="formRubro">
+                        <Form.Label>Rubro</Form.Label>
+                        <Form.Control as="select" onChange={this.handleRubroChange} ref={this.rubroSelection}>
+                            {this.state.filteredRubros.map(rubro => (
+                                <option id={rubro.codigo}>
+                                    {rubro.descripcion}
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="formSubRubro">
+                        <Form.Label>SubRubro</Form.Label>
+                        <Form.Control as="select" onChange={this.handleSubRubroChange} ref={this.subRubroSelection}>
+                        {
+                         this.state.filteredSubRubros 
                             ? 
                             this.state.filteredSubRubros.map(subrubro => (
                             <option id={subrubro.codigo}>
@@ -204,16 +240,20 @@ class MProductos extends Component{
                             <option>
                                 Elija un Rubro primero
                             </option>
-                        : <option>{this.state.producto.subRubro.descripcion}</option>
                         }
-                    </Form.Control>
-                </Form.Group>
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="codigoBarras">
+                        <Form.Label>Código de barras</Form.Label>
+                        <Form.Control type="text" onChange={this.handleChange}/>
+                    </Form.Group>
+                </Form.Row>}
                 <Form.Group controlId="precio">
                     <Form.Label>Precio</Form.Label>
-                    <Form.Control type="text" placeholder={this.state.producto.precio} onChange={this.handleChange} />
+                    <Form.Control type="text" placeholder={this.state.producto ? this.state.producto.precio : ''} onChange={this.handleChange} />
                 </Form.Group>
                 <Button type="submit" disabled={!this.validateForm()} variant="primary">
-                    Modificar
+                    {this.state.producto ? "Modificar" : "Crear"}
                 </Button>
                 </Form>
             </Modal.Body>
@@ -233,4 +273,4 @@ class MProductos extends Component{
         )
     }
 }
-export default MProductos;
+export default MCMProductos;
