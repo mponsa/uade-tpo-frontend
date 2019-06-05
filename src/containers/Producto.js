@@ -79,10 +79,7 @@ class Producto extends Component{
                                 <Button className="delete" variant="danger" onClick={this.handleEliminar}>Eliminar</Button>
                             </ButtonGroup>
                             <MEliminar show={this.state.showEP} onHide={showEPClose} producto={this.state.producto}  />
-                            <MCMProductos show={this.state.showMP} onHide={showMPClose} producto={this.state.producto} handleMod = {this.handleModificacion} /> 
-                            {/*<MEliminarPedido show={this.state.showEP} onHide={showEPClose} pedido={this.state.pedido}  />
-                            <MProductos show={this.state.showMP} onHide={showMPClose} agregarItem ={this.handleAgregarItem}/>
-                            <MCantidad show={this.state.showC} onHide={showCClose} setearCantidad={this.handleSetearCantidad/>}*/}       
+                            <MCMProductos show={this.state.showMP} onHide={showMPClose} producto={this.state.producto} handleMod = {this.handleModificacion} />      
                     </Card.Footer>
                     </Card.Body>
                 </Card>

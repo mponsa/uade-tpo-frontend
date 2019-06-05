@@ -12,19 +12,20 @@ class MCMProductos extends Component{
         this.subRubroSelection = React.createRef();
         this.state = {
             show : this.props.show,
-            producto : this.props.producto, //Si viene vacío es NEW Producto.
+            producto : this.props.producto,
+            mod : this.props.producto ? true : false, 
             rubros: '',
             subRubros: '',
             filteredSubRubros: '',
             isLoadedR: false,
             isLoadedSR: false,
             //Nuevos valores para el producto tanto si se modifica cómo si se crea uno nuevo.
-            rubro: '',
-            subRubro: '',
-            nombre: '',
-            marca: '',
-            precio: '',
-            codigoBarras: '',
+            rubro: this.props.producto ? this.props.producto.rubro : '',
+            subRubro: this.props.producto ? this.props.producto.subRubro : '',
+            nombre: this.props.producto ? this.props.producto.nombre : '',
+            marca: this.props.producto ? this.props.producto.marca : '',
+            precio: this.props.producto ? this.props.producto.precio : '',
+            codigoBarras: this.props.producto ? this.props.producto.codigoBarras     : '',
         }
     }
 
@@ -89,7 +90,7 @@ class MCMProductos extends Component{
 
   
         this.setState({filteredSubRubros : filtered,
-                        rubro : rubroSel })
+                        rubro : rubroSel[0] })
     }
     
     
@@ -100,7 +101,7 @@ class MCMProductos extends Component{
         subRubroSel = this.state.subRubros.filter(function(subrubro){
             return !subrubro.descripcion.indexOf(filter)
         })
-        this.setState({ subRubro : subRubroSel })
+        this.setState({ subRubro : subRubroSel[0] })
     }
 
     handleChange = e => {
@@ -111,37 +112,55 @@ class MCMProductos extends Component{
     }
 
 
-    handleSubmit = e => {
-        
-        if(this.state.producto != ''){
-        //Se cambian sólo los campos que tuvieron modificación
+    handleGrabar = e => {
+
+            //Set del objecto producto
+            let newProduct = {
+                rubro: this.state.rubro,
+                subRubro: this.state.subRubro,
+                nombre: this.state.nombre,
+                marca: this.state.marca,
+                codigoBarras: this.state.codigoBarras,
+                precio: parseInt(this.state.precio)
+            };
+
+            if  (this.state.mod)
+                newProduct.identificador = this.state.producto.identificador;
+
+
+            this.setState({producto : newProduct}
+               , () => {
+ 
+                if(this.state.mod){
             
+                    try{
+                        axios.post(api.path + '/modificarProducto', this.state.producto).then(response=>{
+                            
+                                alert(response.data.clientMessage);
+                                this.props.handleMod();
+                                this.closeModal();
+                        })
+                        
+                        
+                    }catch(e){
+                        alert(e.message);
+                    }
+                }else{
+                    try{
+                        axios.post(api.path + '/altaProducto', this.state.producto).then(response=>{
+                            
+                            alert(response.data.clientMessage);
+                           this.closeModal();
+                        })      
+                    }catch(e){
+                        alert(e.message);
+                    }
+                }
+            });
 
-            try{
-                axios.post(api.path + '/modificarProducto', this.state.producto).then(response=>{
-                    
-                        alert(response.data.clientMessage);
-                
-                })
-                this.props.handleMod();
-                
-            }catch(e){
-                alert(e.message);
-            }
-        }else{
 
 
-            try{
-                axios.post(api.path + '/altaProducto', this.state.producto).then(response=>{
-                    
-                    alert(response.data.clientMessage);
-                   
-                })      
-            }catch(e){
-                alert(e.message);
-            }
-        }
-
+            
     }
 
     validateForm() {
@@ -252,7 +271,7 @@ class MCMProductos extends Component{
                     <Form.Label>Precio</Form.Label>
                     <Form.Control type="text" placeholder={this.state.producto ? this.state.producto.precio : ''} onChange={this.handleChange} />
                 </Form.Group>
-                <Button type="submit" disabled={!this.validateForm()} variant="primary">
+                <Button disabled={!this.validateForm()} onClick={this.handleGrabar} variant="primary">
                     {this.state.producto ? "Modificar" : "Crear"}
                 </Button>
                 </Form>
