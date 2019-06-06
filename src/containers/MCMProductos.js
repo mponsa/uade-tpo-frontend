@@ -128,9 +128,7 @@ class MCMProductos extends Component{
                 newProduct.identificador = this.state.producto.identificador;
 
 
-            this.setState({producto : newProduct}
-               , () => {
- 
+            this.setState({producto : newProduct}, () => {
                 if(this.state.mod){
             
                     try{
